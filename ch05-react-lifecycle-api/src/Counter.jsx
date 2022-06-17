@@ -58,6 +58,13 @@ class Counter extends Component {
     });
   }
 
+  handleCreate = () => {
+    const { number } = this.state;
+    this.setState({
+      number: number * 3
+    });
+  }
+
   render() {
     if (this.state.error) return (<h1>에러발생!!</h1>)
 
