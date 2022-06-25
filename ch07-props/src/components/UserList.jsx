@@ -1,41 +1,54 @@
 import React from 'react';
 
-const users = [
-  {
-    id: 1,
-    username: 'kevin choi',
-    email: 'kcdevdes@gmail.com',
-  },
-  {
-    id: 2,
-    username: 'gibeom choi',
-    email: 'kvicwhite@gmail.com',
-  },
-  {
-    id: 3,
-    username: 'undefined choi',
-    email: 'example@example.com',
-  }
-];
+function User({ user, onRemove, onToggle }) {
+  // useEffect(() => {
+  //   console.log('Component is mounted : User has been changed');
+  //   console.log(user);
+  //   return () => {
+  //     console.log('before the value of user is changed...');
+  //     console.log(user ? 'Freed' : user);
+  //   };
+  // }, [user]);
 
-function User({ user }) {
+  const onClickRemove = () => {
+    onRemove(user.id);
+  };
+
+  const onClickToggle = () => {
+    onToggle(user.id);
+  };
+
   return (
     <div>
-      <b>{user.username}</b> <span>({user.email})</span>
+      <b
+        style={{
+          cursor: 'pointer',
+          color: user.active ? 'green' : 'black',
+        }}
+        onClick={onClickToggle}
+      >
+        {user.username}
+      </b>
+      &nbsp;
+      <span>({user.email})</span>
+      <button onClick={onClickRemove}>Remove</button>
     </div>
-  )
+  );
 }
 
-function UserList() {
+function UserList({ users, onRemove, onToggle }) {
   return (
     <div>
-      {
-        users.map(user => (
-          <User user={user} key={user.id} />
-        ))
-      }
+      {users.map((user) => (
+        <User
+          user={user}
+          key={user.id}
+          onRemove={onRemove}
+          onToggle={onToggle}
+        />
+      ))}
     </div>
-  )
+  );
 }
 
-export default UserList;
+export default React.memo(UserList);
